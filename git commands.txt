@@ -1,0 +1,16 @@
+echo "# eCommerceMERN" >> README.md
+git init
+git add README.md
+git status
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/AmitDobal/eCommerceMERN.git
+git push -u origin main
+
+
+
+
+--------some more commands-----------
+git restore --staged <filename>
+git restore <filename>               //comes when you cloned/cpmmited the repo 
+git checkout <branchname>		//switch the branches
