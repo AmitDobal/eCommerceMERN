@@ -10,17 +10,44 @@ import {
 } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
 import AddedToCartMessageComponent from "../AddedToCartMessageComponent";
+import ImageZoom from "js-image-zoom";
+import { useEffect } from "react";
 
 const ProductDetailsPage = () => {
+  var options = {
+    // width: 400,
+    // zoomWidth: 500,
+    scale: 2,
+    offset: { vertical: 0, horizontal: 0 },
+  };
+  console.log("Product Details Page");
+  useEffect(() => {
+    new ImageZoom(document.getElementById("first"), options);
+    new ImageZoom(document.getElementById("second"), options);
+    new ImageZoom(document.getElementById("third"), options);
+    new ImageZoom(document.getElementById("fourth"), options);
+  });
   return (
     <Container>
       <AddedToCartMessageComponent />
       <Row className="mt-5">
-        <Col md={4}>
-          <Image fluid src="/images/games-category.png" />
-          <Image fluid src="/images/monitors-category.png" />
-          <Image fluid src="/images/tablets-category.png" />
-          <Image fluid src="/images/games-category.png" />
+        <Col style={{ zIndex: 1 }} md={4}>
+          <div id="first">
+            <Image
+              crossOrigin="anonymous"
+              fluid
+              src="/images/games-category.png"
+            />
+          </div>
+          <div id="second">
+            <Image fluid src="/images/monitors-category.png" />
+          </div>
+          <div id="third">
+            <Image fluid src="/images/tablets-category.png" />
+          </div>
+          <div id="fourth">
+            <Image fluid src="/images/games-category.png" />
+          </div>
         </Col>
         <Col md={8}>
           <Row>
@@ -38,15 +65,18 @@ const ProductDetailsPage = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   Porta ac consectetur ac Porta ac consectetur ac Porta ac
-                  consectetur ac Porta ac consectetur a cPorta ac consectetur
-                  ac Porta ac consectetur ac Porta ac consectetur ac
+                  consectetur ac Porta ac consectetur a cPorta ac consectetur ac
+                  Porta ac consectetur ac Porta ac consectetur ac
                 </ListGroup.Item>
               </ListGroup>
             </Col>
             <Col md={4}>
               <ListGroup>
                 <ListGroup.Item>Status: in Stock</ListGroup.Item>
-                <ListGroup.Item> Price: <span className="fw-bold">$232</span></ListGroup.Item>
+                <ListGroup.Item>
+                  {" "}
+                  Price: <span className="fw-bold">$232</span>
+                </ListGroup.Item>
                 <ListGroup.Item>
                   <Form.Select size="lg" aria-label="Default select example">
                     <option>Quantity: </option>
@@ -64,11 +94,16 @@ const ProductDetailsPage = () => {
           <Row className="mt-5">
             <h5>REVIEWS</h5>
             <ListGroup variant="flush">
-              <ListGroup.Item>Cras justo odio</ListGroup.Item>
-              <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-              <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-              <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-              <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+              {Array.from({ length: 10 }).map((_, idx) => (
+                <ListGroup.Item key={idx}>
+                  John Doe <br />
+                  <Rating readonly size={20} initialValue={4.4} /> <br />
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi
+                </ListGroup.Item>
+              ))}
             </ListGroup>
           </Row>
           <hr />
@@ -83,16 +118,20 @@ const ProductDetailsPage = () => {
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label>Example textarea</Form.Label>
+              <Form.Label>Write a Review</Form.Label>
               <Form.Control as="textarea" rows={3} />
             </Form.Group>
             <Form.Select aria-label="Default select example">
-              <option>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option>Your Rating</option>
+              <option value="5">5 (very good)</option>
+              <option value="4">4 (good)</option>
+              <option value="3">3 (average)</option>
+              <option value="2">2 (bad)</option>
+              <option value="1">1 (awful)</option>
             </Form.Select>
-            <Button variant="warning">Button</Button>
+            <Button variant="warning" className="mb-3 mt-3">
+              Button
+            </Button>
           </Form>
         </Col>
       </Row>
