@@ -14,3 +14,4 @@ git push -u origin main
 git restore --staged <filename>
 git restore <filename>               //comes when you cloned/cpmmited the repo 
 git checkout <branchname>		//switch the branches
+git clone https://github.com/AmitDobal/eCommerceMERN.git          //clone whole code
