@@ -9,7 +9,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
-import AddedToCartMessageComponent from "../AddedToCartMessageComponent";
+import AddedToCartMessageComponent from "../components/AddedToCartMessageComponent";
 import ImageZoom from "js-image-zoom";
 import { useEffect } from "react";
 

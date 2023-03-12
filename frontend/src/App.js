@@ -50,7 +50,7 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="*" element="Page not exists 404" />
+          <Route path="*" element=<h1>Page not exists 404</h1> />
         </Route>
         {/* <Route path="/" component={HomePage} />  in previous versions of react-router-dom */}
 
