@@ -2,12 +2,16 @@ import { Card, Button, Row, Col } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
 import { LinkContainer } from "react-router-bootstrap";
 
-const ProductForListComponent = ({images, idx}) => {
+const ProductForListComponent = ({ images, idx }) => {
   return (
     <Card style={{ marginTop: "30px", marginBottom: "50px" }}>
       <Row>
         <Col lg={5}>
-          <Card.Img variant="top" src={"/images/" + images[idx] + "-category.png"} />
+          <Card.Img
+            crossOrigin="anonymous"
+            variant="top"
+            src={"/images/" + images[idx] + "-category.png"}
+          />
         </Col>
         <Col lg={7}>
           <Card.Body>
@@ -34,4 +38,3 @@ const ProductForListComponent = ({images, idx}) => {
 };
 
 export default ProductForListComponent;
-
