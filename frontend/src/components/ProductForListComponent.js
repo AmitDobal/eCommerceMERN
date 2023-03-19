@@ -17,9 +17,9 @@ const ProductForListComponent = ({ images, idx }) => {
           <Card.Body>
             <Card.Title>Product Name Lorem ipsum dolor sit amet</Card.Title>
             <Card.Text>
-              Product Description Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Magni ipsa ducimus architecto explicabo id
-              accusantium nihil exercitationem autem porro esse.
+              Product Description Lorem ipsum dolor sit consectetur adipisicing
+              elit. Magni ipsa ducimus architecto explicabo id accusantium nihil
+              exercitationem autem porro esse.
             </Card.Text>
             <Card.Text>
               <Rating readonly size={20} initialValue={5} /> (1)
