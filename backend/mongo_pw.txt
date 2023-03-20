@@ -1,0 +1,2 @@
+username: mongo_user
+password: Nm1zzxbofVYaKazK
