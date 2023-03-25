@@ -5,6 +5,7 @@ const categorySchema = mongoose.Schema({
   image: { type: String, default: "/images/tablets-category.png" },
   attrs: [{ key: { type: String }, value: [{ type: String }] }],
 });
+categorySchema.index({ description: 1 });
 
 const Category = mongoose.model("Category", categorySchema);
 
