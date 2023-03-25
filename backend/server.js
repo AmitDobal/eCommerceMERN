@@ -4,7 +4,7 @@ const port = 3000;
 
 const apiRoutes = require("./routes/apiRoutes");
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res, next) => {
   res.json({ message: "API is running" });
 });
 
