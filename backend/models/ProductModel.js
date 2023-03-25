@@ -54,5 +54,6 @@ productSchema.index(
   { name: "text", description: "text" },
   { name: "TextIndex" }
 );
+productSchema.index({ "attrs.key": 1 }, { "attrs.value": 1 });
 
 module.exports = Product;
