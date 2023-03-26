@@ -2,20 +2,52 @@ const connectDB = require("../config/db");
 connectDB();
 
 const categoryData = require("./categories");
+const productData = require("./products");
+const reviewData = require("./reviews");
+const userData = require("./users");
+const orderData = require("./orders");
 
 const Category = require("../models/CategoryModel");
+const Product = require("../models/ProductModel");
+const Review = require("../models/ReviewModel");
+const User = require("../models/UserModel");
+const Order = require("../models/OrderModel");
 
 const importData = async () => {
   try {
-    console.log("Seeder START!!");
+    await Category.collection.dropIndexes();
+    await Product.collection.dropIndexes();
 
-    // await Category.collection.dropIndexes();
-    await Category.collection.deleteMany();
+    await Category.collection.deleteMany({});
+    await Product.collection.deleteMany({});
+    await Review.collection.deleteMany({});
+    await User.collection.deleteMany({});
+    await Order.collection.deleteMany({});
+
     await Category.insertMany(categoryData);
-    console.log("Seeder data proceeded SUCCESSFULLY!!");
+    const reviews = await Review.insertMany(reviewData);
+    const sampleProducts = productData.map((product) => {
+      reviews.map((review) => {
+        product.reviews.push(review._id);
+      });
+      return { ...product };
+    });
+    await Product.insertMany(sampleProducts);
+    await User.insertMany(userData);
+    console.log(
+      "ORDER_CREATED! ",
+      orderData.map((order) => {
+        var arr = [];
+        arr.push(order.createdAt);
+        return arr;
+      })
+    );
+    await Order.insertMany(orderData);
+
+    console.log("Seeder data proceeded successfully");
     process.exit();
   } catch (error) {
-    console.log("Error while processing seeder data!", error.message);
+    console.error("Error while proccessing seeder data", error.message);
     process.exit(1);
   }
 };
