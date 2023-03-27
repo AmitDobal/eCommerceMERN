@@ -1,5 +1,5 @@
 const Product = require("../models/ProductModel");
-const getProducts = async (req, res) => {
+const getUsers = async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products);
@@ -9,4 +9,4 @@ const getProducts = async (req, res) => {
   }
 };
 
-module.exports = getProducts;
+module.exports = getUsers;
