@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/eCommerceMERN/static/css/main.2444067b.css",
+    "main.js": "/eCommerceMERN/static/js/main.db35cd63.js",
+    "static/js/787.cda612ba.chunk.js": "/eCommerceMERN/static/js/787.cda612ba.chunk.js",
+    "static/media/bootstrap-icons.woff?": "/eCommerceMERN/static/media/bootstrap-icons.4e80a14a205e5b6212ff.woff",
+    "static/media/bootstrap-icons.woff2?": "/eCommerceMERN/static/media/bootstrap-icons.1f592ce3089115f4c842.woff2",
+    "index.html": "/eCommerceMERN/index.html",
+    "main.2444067b.css.map": "/eCommerceMERN/static/css/main.2444067b.css.map",
+    "main.db35cd63.js.map": "/eCommerceMERN/static/js/main.db35cd63.js.map",
+    "787.cda612ba.chunk.js.map": "/eCommerceMERN/static/js/787.cda612ba.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2444067b.css",
+    "static/js/main.db35cd63.js"
+  ]
+}
