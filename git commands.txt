@@ -15,3 +15,8 @@ git restore --staged <filename>
 git restore <filename>               //comes when you cloned/cpmmited the repo 
 git checkout <branchname>		//switch the branches
 git clone https://github.com/AmitDobal/eCommerceMERN.git          //clone whole code
+git branch -d <branchname>			//to delete a branch
+
+
+checkout of remote branch with local: switch
+git checkout -b local_branch_name origin/remote_branch_name
