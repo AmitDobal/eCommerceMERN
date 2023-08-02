@@ -1,8 +1,8 @@
-const Product = require("../models/ProductModel");
+const Order = require("../models/OrderModel");
 const getOrders = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.json(products);
+    const order = await Order.find();
+    res.json(order);
   } catch (error) {
     console.log(error.message);
     res.json({ err: error, message: error.message });

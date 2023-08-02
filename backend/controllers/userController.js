@@ -1,8 +1,8 @@
-const Product = require("../models/ProductModel");
+const User = require("../models/UserModel");
 const getUsers = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.json(products);
+    const users = await User.find();
+    res.json(users);
   } catch (error) {
     console.log(error.message);
     res.json({ err: error, message: error.message });
