@@ -1,6 +1,6 @@
 const products = [
   {
-    name: "Product1 Lenovo Comp1 Name Lorem ipsum dolor sit amet",
+    name: "Product1 Lenovo Comp1 Name LLorem ipsum dolor sit amet",
     description:
       "Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.",
     count: 5,
