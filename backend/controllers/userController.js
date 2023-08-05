@@ -1,4 +1,5 @@
 const User = require("../models/UserModel");
+const genreateAuthToken = require("../utils/generateAuthToken");
 const { hashPassword } = require("../utils/hashPassword");
 
 //FETCH ALL USERS
@@ -30,7 +31,33 @@ const registerUser = async (req, res, next) => {
         password: hashedPassword,
         email: email.toLowerCase(),
       });
-      res.status(201).json(user);
+      res
+        .cookie(
+          "access_token",
+          genreateAuthToken(
+            user._id,
+            user.name,
+            user.lastName,
+            user.email,
+            user.isAdmin
+          ),
+          {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+          }
+        )
+        .status(201)
+        .json({
+          success: "User created",
+          userCreated: {
+            _id: user._id,
+            name: user.name,
+            lastName: user.lastName,
+            email: user.email,
+            isAdmin: user.isAdmin,
+          },
+        });
     }
   } catch (error) {
     next(error);
