@@ -11,6 +11,10 @@ const {
   adminUpload,
   adminDeleteProductImage,
 } = require("../controllers/productController");
+const {
+  verifyIsLoggedIn,
+  verifyIsAdmin,
+} = require("../middleware/verifyAuthToken");
 
 router.get("/category/:categoryName/search/:searchQuery", getProducts);
 router.get("/category/:categoryName", getProducts);
@@ -20,6 +24,8 @@ router.get("/bestsellers", getBestSeller);
 router.get("/get-one/:id", getProductById);
 
 //admin routes
+router.use(verifyIsLoggedIn); // TO verify is user is Logged in --> its a middleware
+router.use(verifyIsAdmin); // middleware to verify user is Admin
 router.get("/admin", adminGetProducts);
 router.post("/admin", adminCreateProduct);
 router.delete("/admin/:id", adminDeleteProduct);
