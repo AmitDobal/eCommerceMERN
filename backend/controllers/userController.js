@@ -1,3 +1,4 @@
+const Product = require("../models/ProductModel");
 const Review = require("../models/ReviewModel");
 const User = require("../models/UserModel");
 const genreateAuthToken = require("../utils/generateAuthToken");
@@ -163,20 +164,21 @@ const getUserProfile = async (req, res, next) => {
 
 const writeReview = async (req, res, next) => {
   try {
+    // get comment, rating from request.body:
     const { comment, rating } = req.body;
-    //Validate Request
+    // validate request:
     if (!(comment && rating)) {
-      return res.status(400).json({ error: "All inputs are required" });
+      return res.status(400).send("All inputs are required");
     }
 
-    //Create review ID manuallly because it is needed also for saving in Product collections
+    // create review id manually because it is needed also for saving in Product collection
     const ObjectId = require("mongodb").ObjectId;
     let reviewId = ObjectId();
 
     await Review.create([
       {
         _id: reviewId,
-        comment,
+        comment: comment,
         rating: Number(rating),
         user: {
           _id: req.user._id,
@@ -184,9 +186,36 @@ const writeReview = async (req, res, next) => {
         },
       },
     ]);
-    res.status(201).json({message: "Review Added"})
-  } catch (error) {
-    next(error);
+
+    const product = await Product.findById(req.params.productId).populate(
+      "reviews"
+    );
+
+    const alreadyReviewed = product.reviews.find(
+      (r) => r.user._id.toString() === req.user._id.toString()
+    );
+    if (alreadyReviewed) {
+      return res.status(400).send("product already reviewed");
+    }
+
+    let prc = [...product.reviews];
+    prc.push({ rating: rating });
+    product.reviews.push(reviewId);
+    if (product.reviews.length === 1) {
+      product.rating = Number(rating);
+      product.reviewsNumber = 1;
+    } else {
+      product.reviewsNumber = product.reviews.length;
+      product.rating =
+        prc
+          .map((item) => Number(item.rating))
+          .reduce((sum, item) => sum + item, 0) / product.reviews.length;
+    }
+    await product.save();
+
+    res.send("review created");
+  } catch (err) {
+    next(err);
   }
 };
 
