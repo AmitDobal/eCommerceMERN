@@ -1,5 +1,5 @@
 const Order = require("../models/OrderModel");
-const getOrders = async (req, res) => {
+const getUserOrders = async (req, res) => {
   try {
     const order = await Order.find();
     res.json(order);
@@ -9,4 +9,4 @@ const getOrders = async (req, res) => {
   }
 };
 
-module.exports = getOrders;
+module.exports = {getUserOrders};
