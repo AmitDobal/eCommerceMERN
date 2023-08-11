@@ -3,23 +3,38 @@ import { LinkContainer } from "react-router-bootstrap";
 import AdminLinksComponent from "../../../components/admin/AdminLinksComponent";
 import { useEffect, useState } from "react";
 
-const deleteHandler = () => {
-  if (window.confirm("Are you sure?")) alert("Product Delted!");
-};
-const ProductsPageComponent = ({ fetchProducts }) => {
+const ProductsPageComponent = ({ fetchProducts, deleteProduct }) => {
+  //States
   const [products, setProducts] = useState([]);
+  const [isProductDeleted, setIsProductDeleted] = useState(false);
 
+  //handlers
+  const deleteHandler = async (productId) => {
+    if (window.confirm("Are you sure?")) {
+      const data = await deleteProduct(productId);
+      if (data.message && data.message === "product removed") {
+        setIsProductDeleted(!isProductDeleted);
+      }
+    }
+  };
+
+  //Effect
   useEffect(() => {
     const abctrl = new AbortController();
     fetchProducts(abctrl)
       .then((res) => setProducts(res))
       .catch((er) =>
-        console.log(
-          er.response.data.message ? er.response.data.message : er.response.data
-        )
+        setProducts([
+          {
+            name: er.response.data.message
+              ? er.response.data.message
+              : er.response.data,
+          },
+        ])
       );
-  }, []);
+  }, [isProductDeleted]);
 
+  //Render HTMl
   return (
     <Row className="m-5">
       <Col md={2}>
@@ -61,7 +76,7 @@ const ProductsPageComponent = ({ fetchProducts }) => {
                   <Button
                     variant="danger"
                     className="btn-sm"
-                    onClick={deleteHandler}
+                    onClick={() => deleteHandler(item._id)}
                   >
                     <i className="bi bi-x-circle" />
                   </Button>
