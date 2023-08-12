@@ -8,21 +8,48 @@ import {
   Row,
 } from "react-bootstrap";
 import CartItemComponent from "../../../components/CartItemComponent";
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-const OrderDetailsPageComponent = ({ getOrder }) => {
-  const [order, setOrder] = useState({});
+
+const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
+  //Params
   const { id } = useParams();
 
+  //States
+  const [userInfo, setUserInfo] = useState({});
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [isPaid, setIsPaid] = useState(false);
+  const [isDelivered, setIsDelivered] = useState(false);
+  const [cartSubtotal, setCartSubtotal] = useState(0);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [orderButtonMessage, setOrderButtonMessage] =
+    useState("Mark as delivered");
+  const [cartItems, setCartItems] = useState([]);
+  const [deliveredAt, setDeliveredAt] = useState("")
+
+  //USE EFFECT
   useEffect(() => {
     getOrder(id)
-      .then((res) => setOrder(res))
+      .then((order) => {
+        setUserInfo(order.user);
+        setPaymentMethod(order.paymentMethod);
+        order.isPaid ? setIsPaid(true) : setIsPaid(false);
+        order.isDelivered ? setIsDelivered(true) : setIsDelivered(false);
+        setCartSubtotal(order.orderTotal.cartSubtotal);
+        if (order.isDelivered) {
+          setOrderButtonMessage("Order is finished");
+          setButtonDisabled(true);
+          setDeliveredAt(order.deliveredAt.substring(0,10))
+        }
+        setCartItems(order.cartItems);
+      })
       .catch((er) =>
         console.log(
           er.response.data.message ? er.response.data.message : er.response.data
         )
       );
-  }, [getOrder, id]);
+  }, [getOrder, id, isDelivered]);
 
   return (
     <Container fluid>
@@ -33,13 +60,14 @@ const OrderDetailsPageComponent = ({ getOrder }) => {
           <Row>
             <Col md={6}>
               <h2>Shipping</h2>
-              <b>Name</b>: {order.user.name} {order.user.lastName} <br />
-              <b>Address</b>: <br />
-              <b>Phone</b>: {order.user.phoneNumber} <br />
+              <b>Name</b>: {userInfo.name} {userInfo.lastName} <br />
+              <b>Address</b>: {userInfo.address}, {userInfo.city},{" "}
+              {userInfo.state}, Pin: {userInfo.zipCode} <br />
+              <b>Phone</b>: {userInfo.phoneNumber} <br />
             </Col>
             <Col md={6}>
               <h2>Payment Method</h2>
-              <Form.Select disabled={true}>
+              <Form.Select value={paymentMethod} disabled={true}>
                 <option value={"pp"}>PayPal</option>
                 <option value={"cod"}>
                   Cash On Delivery(Delivery may be delayed)
@@ -48,13 +76,20 @@ const OrderDetailsPageComponent = ({ getOrder }) => {
             </Col>
             <Row>
               <Col>
-                <Alert className="mt-3" variant="danger">
-                  Not delivered
+                <Alert
+                  className="mt-3"
+                  variant={isDelivered ? "success" : "danger"}
+                >
+                  {isDelivered ? (
+                    <>Delivered at {deliveredAt}</>
+                  ) : (
+                    <>Not delivered </>
+                  )}
                 </Alert>
               </Col>
               <Col>
-                <Alert className="mt-3" variant="success">
-                  Paid on 2023-03-13
+                <Alert className="mt-3" variant={isPaid ? "success" : "danger"}>
+                  {isPaid ? <>Paid on {isPaid}</> : <>Not paid yet</>}
                 </Alert>
               </Col>
             </Row>
@@ -62,8 +97,8 @@ const OrderDetailsPageComponent = ({ getOrder }) => {
           <br />
           <h2>Order Items</h2>
           <ListGroup variant="flush">
-            {Array.from({ length: 3 }).map((_, idx) => (
-              <CartItemComponent key={idx} />
+            {cartItems.map((item, idx) => (
+              <CartItemComponent key={idx} item={item} orderCreated={true} />
             ))}
           </ListGroup>
         </Col>
@@ -73,7 +108,8 @@ const OrderDetailsPageComponent = ({ getOrder }) => {
               <h3>Order Summary</h3>
             </ListGroup.Item>
             <ListGroup.Item>
-              Items price (after tax): <span className="fw-bold">$100</span>
+              Items price (after tax):{" "}
+              <span className="fw-bold">${cartSubtotal}</span>
             </ListGroup.Item>
             <ListGroup.Item>
               Shipping: <span className="fw-bold">included</span>
@@ -82,12 +118,32 @@ const OrderDetailsPageComponent = ({ getOrder }) => {
               Tax: <span className="fw-bold">included</span>
             </ListGroup.Item>
             <ListGroup.Item className="text-danger">
-              Total price: <span className="fw-bold ">$100</span>
+              Total price: <span className="fw-bold ">${cartSubtotal}</span>
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="d-grid">
-                <Button size="lg" variant="danger" type="button">
-                  Mark as delivered
+                <Button
+                  onClick={() =>
+                    markAsDelivered(id)
+                      .then((res) => {
+                        if (res) {
+                          setIsDelivered(true);
+                        }
+                      })
+                      .catch((er) =>
+                        console.log(
+                          er.response.data.message
+                            ? er.response.data.message
+                            : er.response.data
+                        )
+                      )
+                  }
+                  size="lg"
+                  disabled={buttonDisabled}
+                  variant="danger"
+                  type="button"
+                >
+                  {orderButtonMessage}
                 </Button>
               </div>
             </ListGroup.Item>
