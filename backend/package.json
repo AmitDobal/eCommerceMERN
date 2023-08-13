@@ -9,8 +9,8 @@
     "server-dev": "npx nodemon server.js",
     "client": "npm start --prefix ../frontend",
     "dev": "concurrently --kill-others-on-fail \"npm run server-dev\" \"npm run client\"",
-    "seed:data":"node seeder/seeder.js",
-    "seed:data-d":"node seeder/seeder -d"
+    "seed:data": "node seeder/seeder.js",
+    "seed:data-d": "node seeder/seeder -d"
   },
   "author": "",
   "license": "ISC",
