@@ -62,7 +62,7 @@ const ProductDetailsPage = () => {
         <Col md={8}>
           <Row>
             <Col md={8}>
-              <ListGroup variant="flush">
+              <ListGroup variant="flush ">
                 <ListGroup.Item>
                   <h1>Product Name</h1>
                 </ListGroup.Item>
