@@ -12,6 +12,11 @@ import { Link } from "react-router-dom";
 
 const LoginPageComponent = ({ loginUserApiRequest }) => {
   const [validated, setValidated] = useState(false);
+  const [loginUserResponseState, setLoginUserResponseState] = useState({
+    success: "",
+    error: "",
+    loading: false,
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -22,15 +27,25 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
     const doNotLogout = form.doNotLogout.checked;
 
     if (event.currentTarget.checkValidity() === true && email && password) {
+      setLoginUserResponseState({ loading: true });
       loginUserApiRequest(email, password, doNotLogout)
-        .then((res) => console.log(res))
-        .catch((er) =>
-          console.log(
-            er.response.data.message
+        .then((res) => {
+          setLoginUserResponseState({
+            success: res.success,
+            loading: false,
+            error: "",
+          });
+          console.log(res);
+        })
+        .catch((er) => {
+          setLoginUserResponseState({
+            success: "wrong credentials",
+            loading: false,
+            error: er.response.data.message
               ? er.response.data.message
-              : er.response.data
-          )
-        );
+              : er.response.data,
+          });
+        });
     }
     setValidated(true);
   };
@@ -73,16 +88,27 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
               </Col>
             </Row>
             <Button variant="primary" type="submit" className="mb-3">
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
+              {loginUserResponseState &&
+              loginUserResponseState.loading === true ? (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              ) : (
+                ""
+              )}
               Login
             </Button>
-            <Alert show={true} variant="danger">
+            <Alert
+              show={
+                loginUserResponseState &&
+                loginUserResponseState.success === "wrong credentials"
+              }
+              variant="danger"
+            >
               Wrong credentials!
             </Alert>
           </Form>
