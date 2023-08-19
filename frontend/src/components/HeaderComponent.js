@@ -10,13 +10,13 @@ import {
   Button,
   InputGroup,
 } from "react-bootstrap";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 
 const HeaderComponent = () => {
-  // const productInCart = useSelector((state) => state.cart.value);
+  const productInCart = useSelector((state) => state.cart.value);
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -69,7 +69,7 @@ const HeaderComponent = () => {
             <LinkContainer to="/cart">
               <Nav.Link>
                 <Badge pill bg="danger">
-                  {/* {productInCart} */}2
+                  {productInCart}
                 </Badge>
                 <i className="bi bi-cart-dash"></i>
                 <span className="ms-1">CART</span>
