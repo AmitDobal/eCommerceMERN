@@ -9,7 +9,7 @@ const AdminLinksComponent = () => {
           <Nav.Link>Orders</Nav.Link>
         </LinkContainer>
         <LinkContainer to="/admin/products">
-          <Nav.Link>Producrs</Nav.Link>
+          <Nav.Link>Products</Nav.Link>
         </LinkContainer>
         <LinkContainer to="/admin/users">
           <Nav.Link>Users</Nav.Link>

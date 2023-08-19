@@ -50,7 +50,7 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="*" element=<h1>Page not exists 404</h1> />
+          <Route path="*" element={<h1>Page not exists 404</h1>} />
         </Route>
         {/* <Route path="/" component={HomePage} />  in previous versions of react-router-dom */}
 
@@ -80,7 +80,7 @@ function App() {
           />
           <Route path="/admin/orders" element={<AdminOrdersPage />} />
           <Route
-            path="/admin/order-details"
+            path="/admin/order-details/:id"
             element={<AdminOrderDetailsPage />}
           />
           <Route path="/admin/chats" element={<AdminChatsPage />} />

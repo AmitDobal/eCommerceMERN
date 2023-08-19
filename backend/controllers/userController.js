@@ -74,7 +74,7 @@ const loginUser = async (req, res, next) => {
       return res.status(400).send("All inputs are required");
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).orFail();
 
     if (user && comparePassword(password, user.password)) {
       let cookieParams = {
@@ -267,7 +267,7 @@ const deleteUser = async (req, res, next) => {
   try {
     const user = User.findById(req.params.id).orFail();
     await user.remove();
-    res.json({ message: "User is Removed" });
+    res.json({ message: "user removed" });
   } catch (error) {
     next(error);
   }
