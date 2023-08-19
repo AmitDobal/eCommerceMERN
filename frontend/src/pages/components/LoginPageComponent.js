@@ -8,7 +8,7 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPageComponent = ({ loginUserApiRequest }) => {
   const [validated, setValidated] = useState(false);
@@ -17,6 +17,8 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
     error: "",
     loading: false,
   });
+
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -35,7 +37,11 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
             loading: false,
             error: "",
           });
-          console.log(res);
+          console.log(res); //TODO: Remove Log
+
+          if (res.success === "user logged in" && !res.userLoggedIn.isAdmin)
+            navigate("/user", { replace: true });
+          else navigate("/admin/orders", { replace: true });
         })
         .catch((er) => {
           setLoginUserResponseState({
