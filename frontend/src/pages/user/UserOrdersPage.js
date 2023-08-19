@@ -20,7 +20,7 @@ const UserOrdersPage = () => {
           <tbody>
             {["bi bi-check-lg text-success", "bi bi-x-lg text-danger"].map(
               (item, idx) => (
-                <tr>
+                <tr key={idx}>
                   <td>{idx + 1}</td>
                   <td>Mark Twain</td>
                   <td>2023-03-13</td>

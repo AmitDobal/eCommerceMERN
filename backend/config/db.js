@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
+    console.log("URI: ", process.env.MONGO_URI);
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -11,7 +12,7 @@ const connectDB = async () => {
     console.log("MongoDB connection SUCCESS");
   } catch (error) {
     console.log("\nMongoDB connection FAIL: \n", error.message);
-    console.log("\nSTACK: \n", error.stack)
+    console.log("\nSTACK: \n", error.stack);
     process.exit(1);
   }
 };
