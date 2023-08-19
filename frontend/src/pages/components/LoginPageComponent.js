@@ -10,7 +10,11 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
-const LoginPageComponent = ({ loginUserApiRequest }) => {
+const LoginPageComponent = ({
+  loginUserApiRequest,
+  setReduxUserState,
+  reduxDispatch,
+}) => {
   const [validated, setValidated] = useState(false);
   const [loginUserResponseState, setLoginUserResponseState] = useState({
     success: "",
@@ -38,6 +42,11 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
             error: "",
           });
           console.log(res); //TODO: Remove Log
+          
+          //*Action Dispatch for redux to Save USer data
+          if (res.userLoggedIn) {
+            reduxDispatch(setReduxUserState(res.userLoggedIn));
+          }
 
           if (res.success === "user logged in" && !res.userLoggedIn.isAdmin)
             navigate("/user", { replace: true });
@@ -113,8 +122,7 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
                 loginUserResponseState &&
                 loginUserResponseState.success === "wrong credentials"
               }
-              variant="danger"
-            >
+              variant="danger">
               Wrong credentials!
             </Alert>
           </Form>
