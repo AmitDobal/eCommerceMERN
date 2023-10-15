@@ -18,7 +18,10 @@ app.get("/", async (req, res, next) => {
 const connectDB = require("./config/db");
 connectDB();
 
+//Routing
 app.use("/api", apiRoutes);
+
+
 
 app.use((error, req, res, next) => {
   if (process.env.NODE_ENV === "development") {
